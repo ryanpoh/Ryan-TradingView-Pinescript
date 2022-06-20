@@ -1,0 +1,70 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © rypoh1
+
+//@version=4
+study(title="ADR%,ATR$,BENCH,PADR,PATR,$RISK,SHARES", shorttitle="ADR%,ATR$,BENCH,PADR,PATR,$RISK,SHARES", overlay=false)
+
+
+dclose          = security(syminfo.tickerid, 'D', close)
+dhigh           = security(syminfo.tickerid, 'D', high)
+dlow            = security(syminfo.tickerid, 'D', low)
+
+acc_size = input(38000, minval = 1, title="Account Size (USD)")
+r = input(30, minval = 1, title="Dollar Risk (R)")
+max_pos_percentage = input(25, minval = 1, title="Max Position % (Suggested: 25%)")
+max_pos = acc_size * max_pos_percentage / 100
+
+
+// ADR%, ATR, BENCH, PADR, PATR, DOLLAR RISK, SHARES TO BUY
+
+// ADR
+adr_length = input(20, title="ADR Length")
+ma_function_adr(source, adr_length) => sma(source, adr_length)
+adr = 100 * (sma(dhigh/dlow, adr_length) - 1)
+plotchar(adr, title = "ADR (%)", char="", color=color.white, transp=100)
+// plot(adr, title = "ADR (%)", color=color.white, transp=100)
+
+// ATR
+atr_length = input(title="ATR Length", defval=14, minval=1)
+ma_function_atr(source, atr_length) => sma(source, atr_length)
+atr = sma(tr(true), atr_length)
+plotchar(atr, title = "ATR ($)", char="", color=color.green, transp=100)
+// plot(atr, title = "ATR ($)", color=color.green, transp=100)
+
+// BENCH 
+plot(100, title = "BENCH (%)", color=color.red, transp=0)
+
+// P_ADR
+entry_dr = 100 * (dclose/dlow - 1)
+p_dr = entry_dr/adr * 100
+plot(p_dr, title = "P_ADR (%)", color=color.orange, transp=0)
+
+
+// P_ATR
+entry_tr = abs(dclose - dlow)
+p_tr = entry_tr/atr * 100
+plot(p_tr, title = "P_ATR (%)", color=color.blue, transp=0)
+
+risk_range = dclose - dlow
+plot(risk_range, title = "RISKRANGE ($)", color=color.white, transp=100)
+
+
+isMoreThanMaxPos = if floor(r/risk_range)*dclose <= max_pos
+    0
+else 
+    1
+
+
+plotchar(isMoreThanMaxPos == 0 ? floor(r/risk_range) : floor(max_pos/dclose), title = "Buy Shares", char="", color= isMoreThanMaxPos == 0 ? color.green : color.red, transp=100)
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+//@version=4
+study(title="EMA", shorttitle="EMA - Ryan", overlay=true, resolution="") //indicator resolution won't change when I change timeframes. now is 1HR
+
+
+out1 = ema(close, 10)
+plot(out1, title="10EMA", color=color.new(#FF00FF, 0))//pink
+
+out2 = ema(close, 20)
+plot(out2, title="20EMA", color=color.new(#FFF200, 0))//yellow
+
+out3 = ema(close, 50)
+plot(out3, title="50EMA", color=color.new(color.red, 0))//red
+
+out4 = ema(close, 65)
+plot(out4, title="65EMA", color=color.new(#FFFFFF, 0))//white
+

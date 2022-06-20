@@ -1,0 +1,24 @@
+//@version=4
+study(title="SMA - Ryan", shorttitle="SMA - Ryan", overlay=true) //indicator resolution won't change when I change timeframes.
+
+
+out7 = sma(close, 5)
+plot(out7, title="5MA", color=color.new(color.orange, 0))//short term sentiment
+
+out1 = sma(close, 10)
+plot(out1, title="10MA", color=color.new(#FF00FF, 0))//pink
+
+out2 = sma(close, 20)
+plot(out2, title="20MA", color=color.new(#FFF200, 0))//yellow
+
+out3 = sma(close, 50)
+plot(out3, title="50MA", color=color.new(#FF0000, 0))//red
+
+out4 = sma(close, 100)
+plot(out4, title="100MA", color=color.new(#FFA500, 0))
+
+out5 = sma(close, 150)
+plot(out5, title="150MA", color=color.new(#006400, 0))
+
+out6 = sma(close, 200)
+plot(out6, title="200MA", color=color.new(color.navy, 0))
